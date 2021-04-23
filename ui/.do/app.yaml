@@ -1,0 +1,24 @@
+name: sample-react-fastify
+static_sites:
+- name: ui
+  environment_slug: html
+  github:
+    repo: bojand/sample-react-fastify
+    branch: main
+  source_dir: ui
+  build_command: "npm run build"
+  envs:
+    - key: SERVER_URL
+      scope: BUILD_TIME
+      value: ${server.PUBLIC_URL}
+  routes:
+  - path: /
+services:
+- name: server
+  environment_slug: node-js
+  github:
+    repo: bojand/sample-react-fastify
+    branch: main
+  source_dir: server
+  routes:
+  - path: /api
