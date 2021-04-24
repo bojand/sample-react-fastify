@@ -21,8 +21,6 @@ class App extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log(name, value)
-
     this.setState({
       [name]: value
     });
@@ -30,10 +28,6 @@ class App extends React.Component {
 
   async getGreeting () {
     const { name, greeting, excited } = this.state
-    
-    console.log(name)
-    console.log(greeting)
-    console.log(excited)
     
     if (!name) {
       return
