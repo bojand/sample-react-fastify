@@ -26,7 +26,7 @@ $ npm start
 
 ## Deployment
 
-This application can be deployed to [DIgitalOcean App Platform](https://www.digitalocean.com/products/app-platform/). Frontend is deployed as a static site component, while the server is deployed as a web service.
+This application can be deployed to [DigitalOcean App Platform](https://www.digitalocean.com/products/app-platform/). Frontend is deployed as a static site component, while the server is deployed as a web service.
 
 Clone the repo.
 
