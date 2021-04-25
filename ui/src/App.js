@@ -83,7 +83,8 @@ class App extends React.Component {
               checked={this.state.excited}
               onChange={this.handleInputChange}
             />
-          Excited</label>
+          &nbsp; Excited
+          </label>
           <br />
           <br />
           <button onClick={this.getGreeting}>Get a greeting</button>
