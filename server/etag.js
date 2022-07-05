@@ -58,6 +58,7 @@ function etagOnSendHook (req, reply, payload, done) {
       etag = hash(payload)
       etagValue = etag
       reply.header('etag', etag)
+      reply.header('cache-control', 'max-age=60')
     }
   }
 
