@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { baseURL } from './config.json'
+import config from './config.json'
 
-const apiClient = axios.create({ baseURL })
+const apiClient = axios.create({ baseURL: config.baseURL })
 
 const getGreeting = (name, greeting, excited) => {
   return apiClient.get('/greet', {

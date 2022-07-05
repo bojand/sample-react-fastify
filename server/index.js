@@ -1,8 +1,14 @@
-const fastify = require('fastify')({ logger: true })
+const crypto = require("crypto");
+const fastify = require('fastify')
+const etag = require('@fastify/etag')
 
 const port = process.env.PORT || 4000
 
-fastify.route({
+const app = fastify({ logger: true })
+
+app.register(etag, { weak: true })
+
+app.route({
   method: 'GET',
   url: '/greet',
   schema: {
@@ -36,12 +42,20 @@ fastify.route({
   }
 })
 
+let etagCalled = null
+
+app.get('/etag', async (req, reply) => {
+  etagCalled = new Date()
+
+  return { minutes: etagCalled.getMinutes() }
+})
+
 const start = async () => {
   try {
-    await fastify.listen(port, '0.0.0.0')
-    fastify.log.info(`server listening on ${fastify.server.address().port}`)
+    await app.listen({ port, host: '0.0.0.0' })
+    app.log.info(`server listening on ${app.server.address().port}`)
   } catch (err) {
-    fastify.log.error(err)
+    app.log.error(err)
     process.exit(1)
   }
 }
