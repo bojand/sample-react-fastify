@@ -1,12 +1,10 @@
-const crypto = require("crypto");
 const fastify = require('fastify')
-const etag = require('@fastify/etag')
 
 const port = process.env.PORT || 4000
 
 const app = fastify({ logger: true })
 
-app.register(etag)
+app.register(require('./etag'), { prefix: '/etag' })
 
 app.route({
   method: 'GET',
@@ -40,14 +38,6 @@ app.route({
 
     reply.send({ message })
   }
-})
-
-let etagCalled = null
-
-app.get('/etag', async (req, reply) => {
-  etagCalled = new Date()
-
-  return { minutes: etagCalled.getMinutes() }
 })
 
 const start = async () => {
