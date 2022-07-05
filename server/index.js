@@ -6,7 +6,7 @@ const port = process.env.PORT || 4000
 
 const app = fastify({ logger: true })
 
-app.register(etag, { weak: true })
+app.register(etag)
 
 app.route({
   method: 'GET',
