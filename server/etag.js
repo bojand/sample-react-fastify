@@ -1,8 +1,11 @@
 const crypto = require("crypto");
 
+const REFRESH_SECONDS = 120
+
 let etagValue = null
-let etagCalled = null
-let value = null
+
+let etagCalled = new Date()
+let value = etagCalled.getMinutes()
 
 const etagAPIObject = {
   type: 'object',
@@ -64,7 +67,7 @@ function etagOnSendHook (req, reply, payload, done) {
     reply.code(304)
     newPayload = ''
   }
-  
+
   done(null, newPayload)
 }
 
@@ -83,10 +86,12 @@ module.exports = function (app, opts, done) {
       }
     },
     handler: function (request, reply) {
-      const newValue = new Date().getMinutes()
-      if (newValue > etagCalled) {
-        etagCalled = newValue
-        value = newValue
+      let now = new Date()
+      const millis = now.getTime() - etagCalled.getTime();
+      let elapsed = Math.floor(millis / 1000)
+      if (elapsed > REFRESH_SECONDS) {
+        etagCalled = now
+        value = now.getMinutes()
       }
 
       return { value }
