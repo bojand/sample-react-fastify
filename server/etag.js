@@ -51,15 +51,20 @@ function etagOnSendHook (req, reply, payload, done) {
       return
     }
 
-    etag = hash(payload)
-    etagValue = etag
-    reply.header('etag', etag)
+    if (reply.statusCode < 400) {
+      etag = hash(payload)
+      etagValue = etag
+      reply.header('etag', etag)
+    }
   }
 
-  if (req.headers['if-none-match'] === etag) {
+  let ifNoneMatch = req.headers['if-none-match']
+
+  if (etag && ifNoneMatch && ifNoneMatch === etag) {
     reply.code(304)
     newPayload = ''
   }
+  
   done(null, newPayload)
 }
 
