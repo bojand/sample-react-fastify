@@ -32,6 +32,13 @@ function etagPreHook (req, reply, done) {
     newPayload = ''
   }
 
+  if ((req.method == 'PUT' || req.method == 'POST') && !ifMatch) {
+    reply.code(412)
+    newPayload = ''
+    reply.send(newPayload)
+    return
+  }
+
   if (etagValue != null && ifMatch && ifMatch !== etagValue) {
     reply.code(412)
     newPayload = ''
